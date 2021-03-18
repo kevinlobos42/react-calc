@@ -6,6 +6,7 @@ import './App.css'
 import './css/mobile.css'
 
 function App() {
+  const [firstInput,setFirstInput] = useState(true)
   const [isOpen, setIsOpen]=useState(false)
   const [isPercent, setIsPercent] = useState(false)
   const [expression,setExpression] = useState('')
@@ -26,16 +27,26 @@ function App() {
       setIsPercent(true)
       setExpression(expression+value)
     }else if(value==="()"){
+      setExpression('')
       if(isOpen){
         value=")"
         setIsOpen(false)
       }else{
         value="("
         setIsOpen(true)
-      }
-      setExpression(expression+value)
+      }    
+      if(firstInput){
+        setExpression(value)
+        setFirstInput(false)
+      } 
+      else setExpression(expression+value)  
     }else{
-      setExpression(expression+value)
+      if(firstInput){
+        setExpression(value)
+        setFirstInput(false)
+      }else{
+        setExpression(expression+value)
+      }
     }
   }
   const handleEqual=()=>{
@@ -53,6 +64,7 @@ function App() {
       val = eval(expression)
     }
     setExpression(val)
+    setFirstInput(true)
   }
 
 
